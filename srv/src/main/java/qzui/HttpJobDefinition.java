@@ -105,10 +105,14 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         	String firedTimeInISO = df.format(context.getFireTime());
             JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();            
             String url = jobDataMap.getString("url");
+            if(!url.contains("?")){
+            	url +="?";
+            }
             url = url+"&scheduledTime="+scheduledTimeInISO+"&firedTime"+firedTimeInISO;
             
             String method = jobDataMap.getString("method");
             HttpRequest request = new HttpRequest(url, method);
+            
             if (!isNullOrEmpty(jobDataMap.getString("body"))) {
                 request.send(jobDataMap.getString("body"));
             }

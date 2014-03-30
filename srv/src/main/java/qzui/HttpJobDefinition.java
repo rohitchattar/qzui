@@ -1,12 +1,17 @@
 package qzui;
 
 import com.github.kevinsawicki.http.HttpRequest;
+
 import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import restx.factory.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.TimeZone;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.quartz.JobBuilder.newJob;
@@ -93,8 +98,15 @@ public class HttpJobDefinition extends AbstractJobDefinition {
     public static class HttpJob implements Job {
         @Override
         public void execute(JobExecutionContext context) throws JobExecutionException {
-            JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();
+        	TimeZone tz = TimeZone.getTimeZone("UTC");
+        	DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+        	df.setTimeZone(tz);
+        	String scheduledTimeInISO = df.format(context.getScheduledFireTime());
+        	String firedTimeInISO = df.format(context.getFireTime());
+            JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();            
             String url = jobDataMap.getString("url");
+            url = url+"&scheduledTime="+scheduledTimeInISO+"&firedTime"+firedTimeInISO;
+            
             String method = jobDataMap.getString("method");
             HttpRequest request = new HttpRequest(url, method);
             if (!isNullOrEmpty(jobDataMap.getString("body"))) {

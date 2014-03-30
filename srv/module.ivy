@@ -31,5 +31,6 @@
         <dependency org="ch.qos.logback" name="logback-classic" rev="1.0.13" conf="default" />
         <dependency org="io.restx" name="restx-specs-tests" rev="0.31.1" conf="test->default" />
         <dependency org="junit" name="junit" rev="4.11" conf="test->default" />
+        <dependency org="mysql" name="mysql-connector-java" rev="5.1.29"/>
     </dependencies>
 </ivy-module>

@@ -41,7 +41,7 @@ public class TriggerDescriptor {
 
     public Trigger buildTrigger() {
         if (!isNullOrEmpty(cron)) {        	
-        	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+        	DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
             try {
 				return newTrigger()
 				        .withIdentity(buildName(), group)
@@ -130,7 +130,7 @@ public class TriggerDescriptor {
                 ", group='" + group + '\'' +
                 ", when='" + when + '\'' +
                 ", cron='" + cron + '\'' +
-                ", endAt(correct format = )='" + endAt + '\'' +
+                ", endAt(correct format: 20140331 ) ='" + endAt + '\'' +
                 ", startAt='" + startAt + '\'' +
                 '}';
     }

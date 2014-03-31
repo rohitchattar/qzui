@@ -3,6 +3,7 @@ package qzui;
 import org.joda.time.DateTime;
 import org.quartz.Trigger;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,8 +40,8 @@ public class TriggerDescriptor {
     
 
     public Trigger buildTrigger() {
-        if (!isNullOrEmpty(cron)) {
-        	SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        if (!isNullOrEmpty(cron)) {        	
+        	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
             try {
 				return newTrigger()
 				        .withIdentity(buildName(), group)

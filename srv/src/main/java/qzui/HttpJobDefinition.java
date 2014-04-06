@@ -99,19 +99,25 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         @Override
         public void execute(JobExecutionContext context) throws JobExecutionException {
         	TimeZone tz = TimeZone.getTimeZone("UTC");
-        	DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mmZ");
+        	DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
         	df.setTimeZone(tz);
         	String scheduledTimeInISO = df.format(context.getScheduledFireTime());
         	String firedTimeInISO = df.format(context.getFireTime());
+        	String nextQueueTimeInIso = df.format(context.getNextFireTime());
             JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();            
             String url = jobDataMap.getString("url");
             if(!url.contains("?")){
             	url +="?";
             }
-            url = url+"&scheduledTime="+scheduledTimeInISO+"&firedTime"+firedTimeInISO;
+            
+            StringBuilder urlBuilder =  new StringBuilder();
+            urlBuilder.append(url);
+            urlBuilder.append("&scheduledTime=").append(scheduledTimeInISO);
+            urlBuilder.append("&firedTime=").append(firedTimeInISO);
+            urlBuilder.append("&nextQueueTime=").append(nextQueueTimeInIso);
             
             String method = jobDataMap.getString("method");
-            HttpRequest request = new HttpRequest(url, method);
+            HttpRequest request = new HttpRequest(urlBuilder.toString(), method);
             
             if (!isNullOrEmpty(jobDataMap.getString("body"))) {
                 request.send(jobDataMap.getString("body"));

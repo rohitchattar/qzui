@@ -103,7 +103,10 @@ public class HttpJobDefinition extends AbstractJobDefinition {
         	df.setTimeZone(tz);
         	String scheduledTimeInISO = df.format(context.getScheduledFireTime());
         	String firedTimeInISO = df.format(context.getFireTime());
-        	String nextQueueTimeInIso = df.format(context.getNextFireTime());
+        	String nextQueueTimeInIso = null;
+        	if(context.getNextFireTime()  != null){
+        		nextQueueTimeInIso = df.format(context.getNextFireTime());
+        	}
             JobDataMap jobDataMap = context.getJobDetail().getJobDataMap();            
             String url = jobDataMap.getString("url");
             if(!url.contains("?")){

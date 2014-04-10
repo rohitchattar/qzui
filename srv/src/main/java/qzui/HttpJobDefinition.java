@@ -125,7 +125,7 @@ public class HttpJobDefinition extends AbstractJobDefinition {
 
             int code = request.code();
             String responseBody = request.body();
-            logger.info("{} {} => {}\n{}", method, url, code, responseBody);
+            logger.info("{} {} => {}\n{}", method, urlBuilder.toString(), code, responseBody);
         }
     }
 

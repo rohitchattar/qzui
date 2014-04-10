@@ -127,7 +127,9 @@ Note that jobs MUST have unique names.
   "method":"GET",
   "url":"http://www.google.com/humans.txt",
   "triggers": [
-        {"cron":"0/2 * * * * ?"}
+        {"cron":"0/2 * * * * ?",
+	"startAt":"20141001",
+	"endAt":"20141010"}
   ]
 }
 ```
